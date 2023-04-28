@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.28.5">
+    <meta name="project" content="Ueberauth Ameritrade v1.1.0">
+
+    <title>README — Ueberauth Ameritrade v1.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-64c5e2b63575bddb1c5b.css" />
+
+    <script src="dist/sidebar_items-1c52a8a6c3.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-b5f3440501744dc8be3d.js"></script>
+
+
+  </head>
+  <body data-type="extras">
+    <script>
+
+      try {
+        var settings = JSON.parse(localStorage.getItem('ex_doc:settings') || '{}');
+
+        if (settings.theme === 'dark' ||
+           ((settings.theme === 'system' || settings.theme == null) &&
+             window.matchMedia('(prefers-color-scheme: dark)').matches)
+           ) {
+          document.body.classList.add('dark')
+        }
+      } catch (error) { }
+    </script>
+
+<div class="main">
+
+
+<section class="sidebar">
+  <button class="sidebar-button sidebar-toggle" aria-label="toggle sidebar">
+    <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+  </button>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <i class="ri-search-2-line" aria-hidden="true" title="Submit search"></i>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <i class="ri-close-line ri-lg" aria-hidden="true" title="Cancel search"></i>
+    </button>
+    <label class="search-label">
+      <p class="sr-only">Search</p>
+      <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+
+    <div class="sidebar-projectDetails">
+      <a href="https://github.com/mithereal/ueberauth_ameritrade" class="sidebar-projectName" translate="no">
+Ueberauth Ameritrade
+      </a>
+      <strong class="sidebar-projectVersion" translate="no">
+        v1.1.0
+      </strong>
+    </div>
+    <ul class="sidebar-listNav">
+      <li><a id="extras-list-link" href="#full-list">Pages</a></li>
+
+        <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+
+
+    </ul>
+  </div>
+
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <output role="status" id="toast"></output>
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>
+<button class="settings display-settings">
+  <i class="ri-settings-3-line"></i>
+  <span class="sr-only">Settings</span>
+</button>
+
+
+    <a href="https://github.com/mithereal/ueberauth_ameritrade/blob/main/README.md#L1" title="View Source" class="view-source" rel="help">
+      <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+      <span class="sr-only">View Source</span>
+    </a>
+
+  <span>README</span>
+</h1>
+
+<p><a href="https://hexdocs.pm/ueberauth_ameritrade/"><img src="https://img.shields.io/badge/hex-docs-lightgreen.svg" alt="Hex Docs"/></a>
+<a href="https://hex.pm/packages/ueberauth_ameritrade"><img src="https://img.shields.io/hexpm/dt/ueberauth_ameritrade.svg" alt="Hex.pm"/></a>
+<a href="https://github.com/mithereal/ueberauth_ameritrade/blob/master/LICENSE"><img src="https://img.shields.io/hexpm/l/ueberauth_ameritrade.svg" alt="License"/></a>
+<a href="https://github.com/mithereal/ueberauth_ameritrade/commits/master"><img src="https://img.shields.io/github/last-commit/mithereal/ueberauth_ameritrade.svg" alt="Last Updated"/></a></p><h1>Überauth Ameritrade</h1><blockquote><p>Ameritrade OAuth2 strategy for Überauth.</p></blockquote><h2 id="installation" class="section-heading">
+  <a href="#installation" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">installation</p>
+  </a>
+  Installation
+</h2>
+<ol><li><p>Setup your application at <a href="https://developer.tdameritrade.com/user/me/apps">Ameritrade Developers</a>.</p></li><li><p>Add <code class="inline">:ueberauth_ameritrade</code> to your list of dependencies in <code class="inline">mix.exs</code>:</p><pre><code class="makeup elixir" translate="no"><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="w"> </span><span class="k" data-group-id="6905395176-1">do</span><span class="w">
+   </span><span class="p" data-group-id="6905395176-2">[</span><span class="p" data-group-id="6905395176-3">{</span><span class="ss">:ueberauth_ameritrade</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 1.0.0&quot;</span><span class="p" data-group-id="6905395176-3">}</span><span class="p" data-group-id="6905395176-2">]</span><span class="w">
+ </span><span class="k" data-group-id="6905395176-1">end</span></code></pre></li><li><p>Add the strategy to your applications:</p><pre><code class="makeup elixir" translate="no"><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="nf">application</span><span class="w"> </span><span class="k" data-group-id="0616150027-1">do</span><span class="w">
+   </span><span class="p" data-group-id="0616150027-2">[</span><span class="ss">applications</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0616150027-3">[</span><span class="ss">:ueberauth_ameritrade</span><span class="p" data-group-id="0616150027-3">]</span><span class="p" data-group-id="0616150027-2">]</span><span class="w">
+ </span><span class="k" data-group-id="0616150027-1">end</span></code></pre></li><li><p>Add Ameritrade to your Überauth configuration:</p><pre><code class="makeup elixir" translate="no"><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="ss">:ueberauth</span><span class="p">,</span><span class="w"> </span><span class="nc">Ueberauth</span><span class="p">,</span><span class="w">
+   </span><span class="ss">providers</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2878675468-1">[</span><span class="w">
+     </span><span class="ss">ameritrade</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2878675468-2">{</span><span class="nc">Ueberauth.Strategy.Ameritrade</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2878675468-3">[</span><span class="p" data-group-id="2878675468-3">]</span><span class="p" data-group-id="2878675468-2">}</span><span class="w">
+   </span><span class="p" data-group-id="2878675468-1">]</span></code></pre></li><li><p> Update your provider configuration:</p><pre><code class="makeup elixir" translate="no"><span class="n">config</span><span class="w"> </span><span class="ss">:ueberauth</span><span class="p">,</span><span class="w"> </span><span class="nc">Ueberauth.Strategy.Ameritrade.OAuth</span><span class="p">,</span><span class="w">
+  </span><span class="ss">client_id</span><span class="p">:</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">get_env</span><span class="p" data-group-id="2283732769-1">(</span><span class="s">&quot;AMERITRADE_KEY&quot;</span><span class="p" data-group-id="2283732769-1">)</span></code></pre></li><li><p> Include the Überauth plug in your controller:</p><pre><code class="makeup elixir" translate="no"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">MyApp.AuthController</span><span class="w"> </span><span class="k" data-group-id="0433936003-1">do</span><span class="w">
+  </span><span class="kn">use</span><span class="w"> </span><span class="nc">MyApp.Web</span><span class="p">,</span><span class="w"> </span><span class="ss">:controller</span><span class="w">
+  </span><span class="n">plug</span><span class="w"> </span><span class="nc">Ueberauth</span><span class="w">
+  </span><span class="n">...</span><span class="w">
+</span><span class="k" data-group-id="0433936003-1">end</span></code></pre></li><li><p> Create the request and callback routes if you haven't already:</p><pre><code class="makeup elixir" translate="no"><span class="n">scope</span><span class="w"> </span><span class="s">&quot;/auth&quot;</span><span class="p">,</span><span class="w"> </span><span class="nc">MyApp</span><span class="w"> </span><span class="k" data-group-id="4462543781-1">do</span><span class="w">
+  </span><span class="n">pipe_through</span><span class="w"> </span><span class="ss">:browser</span><span class="w">
+
+  </span><span class="n">get</span><span class="w"> </span><span class="s">&quot;/:provider&quot;</span><span class="p">,</span><span class="w"> </span><span class="nc">AuthController</span><span class="p">,</span><span class="w"> </span><span class="ss">:request</span><span class="w">
+  </span><span class="n">get</span><span class="w"> </span><span class="s">&quot;/:provider/callback&quot;</span><span class="p">,</span><span class="w"> </span><span class="nc">AuthController</span><span class="p">,</span><span class="w"> </span><span class="ss">:callback</span><span class="w">
+</span><span class="k" data-group-id="4462543781-1">end</span></code></pre><p>And make sure to set the correct redirect URI(s) in your Ameritrade application to wire up the callback.</p></li><li><p>Your controller needs to implement callbacks to deal with <a href="https://hexdocs.pm/ueberauth/0.10.3/Ueberauth.Auth.html"><code class="inline">Ueberauth.Auth</code></a> and <a href="https://hexdocs.pm/ueberauth/0.10.3/Ueberauth.Failure.html"><code class="inline">Ueberauth.Failure</code></a> responses.</p></li></ol><p>For an example implementation see the <a href="https://github.com/ueberauth/ueberauth_example">Überauth Example</a> application.</p><h2 id="calling" class="section-heading">
+  <a href="#calling" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">calling</p>
+  </a>
+  Calling
+</h2>
+<p>Depending on the configured url you can initialize the request through:</p><pre><code class="makeup elixir" translate="no"><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">td</span></code></pre><p>You must use something other than Ameritrade in the callback routes, I use /auth/td see below:</p><pre><code class="makeup elixir" translate="no"><span class="n">config</span><span class="w"> </span><span class="ss">:ueberauth</span><span class="p">,</span><span class="w"> </span><span class="nc">Ueberauth</span><span class="p">,</span><span class="w">
+  </span><span class="ss">providers</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5098536864-1">[</span><span class="w">
+    </span><span class="ss">ameritrade</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5098536864-2">{</span><span class="nc">Ueberauth.Strategy.Ameritrade</span><span class="p">,</span><span class="w">  </span><span class="p" data-group-id="5098536864-3">[</span><span class="ss">request_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/auth/td&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">callback_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/auth/td/callback&quot;</span><span class="p" data-group-id="5098536864-3">]</span><span class="p" data-group-id="5098536864-2">}</span><span class="w">
+  </span><span class="p" data-group-id="5098536864-1">]</span></code></pre><h2 id="license" class="section-heading">
+  <a href="#license" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">license</p>
+  </a>
+  License
+</h2>
+<p>Please see <a href="https://github.com/mithereal/ueberauth_ameritrade/blob/master/LICENSE">LICENSE</a> for licensing details.</p>
+<div class="bottom-actions">
+  <div class="bottom-actions-item">
+
+      <a href="api-reference.html" class="bottom-actions-button" rel="prev">
+        <span class="subheader">
+          ← Previous Page
+        </span>
+        <span class="title">
+API Reference
+        </span>
+      </a>
+
+  </div>
+  <div class="bottom-actions-item">
+
+  </div>
+</div>
+
+      <footer class="footer">
+
+          <p>
+            On Hex.pm:
+
+            <span class="line">
+              <a href="https://hex.pm/packages/ueberauth_ameritrade/1.1.0" class="line footer-hex-package">Package</a>
+              <a href="https://preview.hex.pm/preview/ueberauth_ameritrade/1.1.0" class="line">Preview</a>
+
+                <a href="https://preview.hex.pm/preview/ueberauth_ameritrade/1.1.0/show/README.md">(current file)</a>
+
+            </span>
+
+            <button class="line footer-button display-quick-switch">
+              Search
+            </button>
+          </p>
+
+        <p>
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.28.5) for the
+
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+
+  </body>
+</html>
