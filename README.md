@@ -75,7 +75,7 @@ For an example implementation see the [Überauth Example](https://github.com/ueb
 
 Depending on the configured url you can initialize the request through:
 
-    /auth/td
+    /auth/swift4shop
 
 
 You must use something other than Shift4Shop in the callback routes, I use /auth/td see below:
@@ -83,7 +83,7 @@ You must use something other than Shift4Shop in the callback routes, I use /auth
 ```elixir
 config :ueberauth, Ueberauth,
   providers: [
-    ameritrade: {Ueberauth.Strategy.Shift4Shop,  [request_path: "/auth/swift4shop", callback_path: "/auth/swift4shop/callback"]}
+    swift4shop: {Ueberauth.Strategy.Shift4Shop,  [request_path: "/auth/swift4shop", callback_path: "/auth/swift4shop/callback"]}
   ]
 ```
 
