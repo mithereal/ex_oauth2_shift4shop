@@ -79,6 +79,11 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
       raise OAuth2.Error, reason: "Missing required key `code` for `#{inspect(__MODULE__)}`"
     end
 
+    client = case client.postback_uri do
+      nil -> client
+      data -> put_param(client, :postback_uri, client.postback_uri)
+    end
+
     client
     |> put_header("Accept", "application/json")
     |> put_header("Content-Type", "application/x-www-form-urlencoded")
