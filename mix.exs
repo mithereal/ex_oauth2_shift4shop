@@ -22,12 +22,12 @@ defmodule UeberauthSwift4Shop.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :oauth2, :ueberauth]]
+    [applications: [:logger, :ueberauth, :oauth2]]
   end
 
   defp deps do
     [
-      {:ueberauth, ">= 0.7.0"},
+      {:ueberauth, "~> 0.7.0"},
       {:oauth2, "~> 1.0 or ~> 2.0"},
       {:ex_doc, "~> 0.19", only: :dev},
       {:earmark, ">= 0.0.0", only: :dev}
