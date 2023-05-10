@@ -1,5 +1,18 @@
 defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
+  @moduledoc """
+  An implementation of OAuth2 for Shift4Shop.
+
+  To add your `:client_id` and `:client_secret` include these values in your
+  configuration:
+
+      config :ueberauth, Ueberauth.Strategy.Shift4Shop.OAuth,
+        client_id: System.get_env("Shift4Shop_CLIENT_ID"),
+        client_secret: System.get_env("Shift4Shop_CLIENT_SECRET")
+
+  """
+
   use OAuth2.Strategy
+
 
   @defaults [
     strategy: __MODULE__,
@@ -12,8 +25,9 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     config = Application.get_env(:ueberauth, __MODULE__, [])
 
     client_id = config[:client_id]
+    client_secret = config[:client_secret]
 
-    opts = @defaults |> Keyword.merge(opts) |> Keyword.merge(client_id) |> resolve_values()
+    opts = @defaults |> Keyword.merge(opts) |> Keyword.merge(client_id) |> Keyword.merge(client_secret) |> resolve_values()
 
     json_library = Ueberauth.json_library()
 
@@ -48,15 +62,15 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
 
         {:error, %{body: %{"error" => description}, status_code: error}} ->
           {:error,
-           %{
-             access_token: nil,
-             other_params: [
-               error: error,
-               error_description: description
-             ]
-           }}
+            %{
+              access_token: nil,
+              other_params: [
+                error: error,
+                error_description: description
+              ]
+            }}
 
-          {:ok, %{token: token}} ->
+        {:ok, %{token: token}} ->
           {:ok, token}
 
         {:ok, %{body: %{token: token}}} ->
@@ -90,6 +104,7 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     |> put_param(:code, code)
     |> put_param(:grant_type, "authorization_code")
     |> put_param(:client_id, client.client_id)
+    |> put_param(:client_secret, client.client_secret)
     |> put_param(:redirect_uri, client.redirect_uri)
     |> merge_params(params)
     |> put_headers(headers)

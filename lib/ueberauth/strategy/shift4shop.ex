@@ -4,23 +4,19 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   """
 
   use Ueberauth.Strategy,
-    uid_field: :userId,
-    default_scope: "identify",
-    send_redirect_uri: true,
-    oauth2_module: Ueberauth.Strategy.Shift4Shop.OAuth
+      uid_field: :userId,
+      default_scope: "identify",
+      send_redirect_uri: true,
+      oauth2_module: Ueberauth.Strategy.Shift4Shop.OAuth
 
   alias Ueberauth.Auth.Info
   alias Ueberauth.Auth.Credentials
   alias Ueberauth.Auth.Extra
 
-  alias Ueberauth.Strategy.Shift4Shop.OAuth
-
   @doc """
   Handles initial request for Shift4Shop authentication.
   """
   def handle_request!(conn) do
-    config = Application.get_env(:ueberauth, Ueberauth.Strategy.Shift4Shop.OAuth)
-
     opts =
       options_from_conn(conn)
       |> with_scopes(conn)
