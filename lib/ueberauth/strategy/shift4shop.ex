@@ -4,8 +4,6 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   """
 
   use Ueberauth.Strategy,
-    uid_field: "SecureURL",
-    default_scope: "identify",
     send_redirect_uri: true,
     oauth2_module: Ueberauth.Strategy.Shift4Shop.OAuth
 
@@ -20,7 +18,6 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   def handle_request!(conn) do
     opts =
       options_from_conn(conn)
-      |> with_scopes(conn)
       |> with_state_param(conn)
       |> with_redirect_uri(conn)
 
@@ -129,11 +126,6 @@ defmodule Ueberauth.Strategy.Shift4Shop do
     Keyword.get(options(conn), key, Keyword.get(default_options(), key))
   end
 
-  defp with_scopes(opts, conn) do
-    scopes = conn.params["scope"] || option(conn, :default_scope)
-
-    opts |> Keyword.put(:scope, scopes)
-  end
 
   defp with_redirect_uri(opts, conn) do
     if option(conn, :send_redirect_uri) do
