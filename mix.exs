@@ -1,7 +1,7 @@
 defmodule UeberauthSwift4Shop.Mixfile do
   use Mix.Project
 
-  @version "1.1.1"
+  @version "1.1.2"
   @url "https://github.com/mithereal/ueberauth_shift4shop"
 
   def project do
