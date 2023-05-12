@@ -18,7 +18,7 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     site: "https://apirest.3dcart.com",
     authorize_url: "https://apirest.3dcart.com/oauth/authorize",
     token_url: "https://apirest.3dcart.com/oauth/token",
-    redirect_url: "https://devportal.3dcart.com/oauth.asp"
+    redirect_uri: "https://devportal.3dcart.com/oauth.asp"
   ]
 
   def client(opts \\ []) do
