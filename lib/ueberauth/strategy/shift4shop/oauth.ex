@@ -24,14 +24,10 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
   def client(opts \\ []) do
     config = Application.get_env(:ueberauth, __MODULE__, [])
 
-    client_id = config[:client_id]
-    client_secret = config[:client_secret]
-
     opts =
       @defaults
       |> Keyword.merge(opts)
-      |> Keyword.merge(client_id: client_id)
-      |> Keyword.merge(client_secret: client_secret)
+      |> Keyword.merge(config)
       |> resolve_values()
 
     json_library = Ueberauth.json_library()
