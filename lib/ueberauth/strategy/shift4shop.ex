@@ -21,6 +21,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
       options_from_conn(conn)
       |> with_scopes(conn)
       |> with_state_param(conn)
+      |> with_redirect_uri(conn)
 
     module = option(conn, :oauth2_module)
     redirect!(conn, apply(module, :authorize_url!, [opts]))
@@ -141,7 +142,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   end
 
   defp options_from_conn(conn) do
-    base_options = [redirect_uri: callback_url(conn)]
+    base_options = []
     request_options = conn.private[:ueberauth_request_options].options
 
     case {request_options[:client_id], request_options[:client_secret]} do
