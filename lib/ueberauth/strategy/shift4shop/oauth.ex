@@ -13,7 +13,6 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
 
   use OAuth2.Strategy
 
-
   @defaults [
     strategy: __MODULE__,
     site: "https://apirest.3dcart.com",
@@ -28,10 +27,18 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     client_secret = config[:client_secret]
 
     unless client_id && client_id do
-      raise "client_id and client_secret must be set"
+      raise "client_id and client_secret must be set, ensure the following exists in config.exs #
+      config :ueberauth, Ueberauth.Strategy.Shift4Shop.OAuth,
+  client_id: System.get_env(\"SHIFT4SHOP_CLIENT_ID\"),
+  client_secret: System.get_env(\"SHIFT4SHOP_CLIENT_SECRET\") "
     end
 
-    opts = @defaults |> Keyword.merge(opts) |> Keyword.merge([client_id: client_id]) |> Keyword.merge([client_secret: client_secret]) |> resolve_values()
+    opts =
+      @defaults
+      |> Keyword.merge(opts)
+      |> Keyword.merge(client_id: client_id)
+      |> Keyword.merge(client_secret: client_secret)
+      |> resolve_values()
 
     json_library = Ueberauth.json_library()
 
@@ -63,16 +70,15 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
 
     {_, token} =
       case client do
-
         {:error, %{body: %{"error" => description}, status_code: error}} ->
           {:error,
-            %{
-              access_token: nil,
-              other_params: [
-                error: error,
-                error_description: description
-              ]
-            }}
+           %{
+             access_token: nil,
+             other_params: [
+               error: error,
+               error_description: description
+             ]
+           }}
 
         {:ok, %{token: token}} ->
           {:ok, token}
@@ -97,10 +103,11 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
       raise OAuth2.Error, reason: "Missing required key `code` for `#{inspect(__MODULE__)}`"
     end
 
-    client = case client.postback_uri do
-      nil -> client
-      data -> put_param(client, :postback_uri, client.postback_uri)
-    end
+    client =
+      case client.postback_uri do
+        nil -> client
+        data -> put_param(client, :postback_uri, client.postback_uri)
+      end
 
     client
     |> put_header("Accept", "application/json")
@@ -122,5 +129,4 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
 
   defp resolve_value({m, f, a}) when is_atom(m) and is_atom(f), do: apply(m, f, a)
   defp resolve_value(v), do: v
-
 end
