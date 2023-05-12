@@ -114,7 +114,7 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
   @doc """
   revoke the oauth application.
   """
-  def remove_token!(params \\ [], opts \\ []) do
+  def revoke!(params \\ [], opts \\ []) do
     client =
       client(opts)
       |> OAuth2.Client.delete(params)
@@ -141,7 +141,7 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     token
   end
 
-  def remove_token(client, params, headers) do
+  def revoke(client, params, headers) do
     {store_url, params} = Keyword.pop(params, :store_url, client.params["store_url"])
 
     unless store_url do
