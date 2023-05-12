@@ -96,7 +96,7 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     client =
       case client.postback_uri do
         nil -> client
-        data -> put_param(client, :postback_uri, client.postback_uri)
+        data -> put_param(client, :postback_uri, data)
       end
 
     client
