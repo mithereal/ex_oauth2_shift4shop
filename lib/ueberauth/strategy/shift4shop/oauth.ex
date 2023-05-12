@@ -26,13 +26,6 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     client_id = config[:client_id]
     client_secret = config[:client_secret]
 
-    if is_nil(client_id) || is_nil(client_secret) do
-      raise "client_id and client_secret must be set, ensure the following exists in config.exs #
-      config :ueberauth, Ueberauth.Strategy.Shift4Shop.OAuth,
-  client_id: System.get_env(\"SHIFT4SHOP_CLIENT_ID\"),
-  client_secret: System.get_env(\"SHIFT4SHOP_CLIENT_SECRET\") "
-    end
-
     opts =
       @defaults
       |> Keyword.merge(opts)
