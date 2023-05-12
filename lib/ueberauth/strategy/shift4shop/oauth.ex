@@ -27,7 +27,7 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     client_id = config[:client_id]
     client_secret = config[:client_secret]
 
-    opts = @defaults |> Keyword.merge(opts) |> Keyword.merge(client_id) |> Keyword.merge(client_secret) |> resolve_values()
+    opts = @defaults |> Keyword.merge(opts) |> Keyword.merge([client_id: client_id]) |> Keyword.merge([client_secret: client_secret]) |> resolve_values()
 
     json_library = Ueberauth.json_library()
 
