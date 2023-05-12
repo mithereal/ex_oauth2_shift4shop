@@ -106,6 +106,7 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     |> put_param(:grant_type, "authorization_code")
     |> put_param(:client_id, client.client_id)
     |> put_param(:client_secret, client.client_secret)
+    |> put_param(:redirect_uri, client.redirect_uri)
     |> merge_params(params)
     |> put_headers(headers)
   end

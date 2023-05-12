@@ -4,6 +4,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   """
 
   use Ueberauth.Strategy,
+      ignores_csrf_attack: true,
       uid_field: :userId,
       default_scope: "identify",
       send_redirect_uri: false,
@@ -85,10 +86,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
       expires_at: token.expires_at,
       token: token.access_token,
       refresh_token: token.refresh_token,
-      scopes: scopes,
-      other: %{
-        expires: token.other_params["refresh_token_expires_in"]
-      }
+      scopes: scopes
     }
   end
 
@@ -142,7 +140,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   end
 
   defp options_from_conn(conn) do
-    base_options = [redirect_uri: callback_url(conn)]
+    base_options = []
     request_options = conn.private[:ueberauth_request_options].options
 
     case {request_options[:client_id], request_options[:client_secret]} do
