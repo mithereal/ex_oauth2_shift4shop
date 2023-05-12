@@ -21,7 +21,6 @@ defmodule Ueberauth.Strategy.Shift4Shop do
       options_from_conn(conn)
       |> with_scopes(conn)
       |> with_state_param(conn)
-      |> with_redirect_uri(conn)
 
     module = option(conn, :oauth2_module)
     redirect!(conn, apply(module, :authorize_url!, [opts]))
