@@ -13,6 +13,19 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   alias Ueberauth.Strategy.Shift4Shop.Token
 
   @doc """
+  Handles request for removal of Shift4Shop authentication.
+  """
+  def handle_removal!(conn) do
+    opts =
+      options_from_conn(conn)
+      |> with_state_param(conn)
+      |> with_redirect_uri(conn)
+
+    module = option(conn, :oauth2_module)
+    redirect!(conn, apply(module, :authorize_url!, [opts]))
+  end
+
+  @doc """
   Handles initial request for Shift4Shop authentication.
   """
   def handle_request!(conn) do
@@ -50,6 +63,19 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   end
 
   @doc false
+  def handle_removal!(%Plug.Conn{params: %{"store_url" => store_url}} = conn) do
+    opts = [redirect_uri: callback_url(conn)]
+
+    option(conn, :oauth2_module)
+    |> apply(:remove_token!, [[store_url: store_url], opts])
+  end
+
+  @doc false
+  def handle_removal!(conn) do
+    set_errors!(conn, [error("missing_code", "No code received")])
+  end
+
+  @doc false
   def handle_cleanup!(conn) do
     conn
     |> put_private(:shift4shop_token, nil)
@@ -67,8 +93,9 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   def info(conn) do
     %Info{
       urls: [
-        %{"SecureURL" => conn.private.shift4shop_token.secure_url,
-        "PostBackURL" => conn.private.shift4shop_token.post_back_url
+        %{
+          "SecureURL" => conn.private.shift4shop_token.secure_url,
+          "PostBackURL" => conn.private.shift4shop_token.post_back_url
         }
       ]
     }
@@ -125,7 +152,6 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   defp option(conn, key) do
     Keyword.get(options(conn), key, Keyword.get(default_options(), key))
   end
-
 
   defp with_redirect_uri(opts, conn) do
     if option(conn, :send_redirect_uri) do

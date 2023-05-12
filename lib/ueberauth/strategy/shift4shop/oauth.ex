@@ -111,6 +111,56 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     |> put_headers(headers)
   end
 
+  @doc """
+  revoke the oauth application.
+  """
+  def remove_token!(params \\ [], opts \\ []) do
+    client =
+      client(opts)
+      |> OAuth2.Client.delete(params)
+
+    {_, token} =
+      case client do
+        {:error, %{body: %{"error" => description}, status_code: error}} ->
+          {:error,
+           %{
+             access_token: nil,
+             other_params: [
+               error: error,
+               error_description: description
+             ]
+           }}
+
+        {:ok, %{token: token}} ->
+          {:ok, token}
+
+        {:ok, %{body: %{token: token}}} ->
+          {:ok, token}
+      end
+
+    token
+  end
+
+  def remove_token(client, params, headers) do
+    {code, params} = Keyword.pop(params, :code, client.params["code"])
+    {store_url, params} = Keyword.pop(params, :store_url, client.params["store_url"])
+
+    unless store_url do
+      raise OAuth2.Error, reason: "Missing required key `store_url` for `#{inspect(__MODULE__)}`"
+    end
+
+    client
+    |> put_header("Accept", "application/json")
+    |> put_header("Content-Type", "application/x-www-form-urlencoded")
+    |> put_param(:code, code)
+    |> put_param(:store_url, store_url)
+    |> put_param(:grant_type, "authorization_code")
+    |> put_param(:client_id, client.client_id)
+    |> put_param(:client_secret, client.client_secret)
+    |> merge_params(params)
+    |> put_headers(headers)
+  end
+
   defp resolve_values(list) do
     for {key, value} <- list do
       {key, resolve_value(value)}
