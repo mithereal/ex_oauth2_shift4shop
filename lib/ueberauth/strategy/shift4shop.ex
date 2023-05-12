@@ -11,6 +11,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
 
   alias Ueberauth.Auth.Info
   alias Ueberauth.Auth.Extra
+  alias Ueberauth.Auth.Credentials
   alias Ueberauth.Strategy.Shift4Shop.Token
 
   @doc """
@@ -31,16 +32,18 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   def handle_callback!(%Plug.Conn{params: %{"code" => code}} = conn) do
     opts = [redirect_uri: callback_url(conn)]
 
-    module = option(conn, :oauth2_module)
-    token = apply(module, :get_token!, [[code: code], opts])
+    decoded =
+      option(conn, :oauth2_module)
+      |> apply(:get_token!, [[code: code], opts])
+      |> token()
 
-    if token.access_token == nil do
-      err = token.other_params[:error]
-      desc = token.other_params[:error_description]
+    if decoded.token_key == nil do
+      err = "Token Error"
+      desc = "Invalid Token"
       set_errors!(conn, [error(err, desc)])
     else
       conn
-      |> store_token(token)
+      |> store_token(decoded)
     end
   end
 
@@ -53,7 +56,6 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   def handle_cleanup!(conn) do
     conn
     |> put_private(:shift4shop_token, nil)
-    |> put_private(:shift4shop_user, nil)
   end
 
   # Store the token for later use.
@@ -67,15 +69,35 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   """
   def info(conn) do
     %Info{
-      nickname: conn.private.shift4shop_user
+      urls: [
+        %{"SecureURL" => conn.private.shift4shop_token.secure_url,
+        "PostBackURL" => conn.private.shift4shop_token.post_back_url
+        }
+      ]
     }
   end
 
   @doc """
-  Includes the credentials from the Shift4Shop response.
+  Includes the token from the Shift4Shop response.
   """
-  def credentials(conn) do
+  def token(conn) do
     Token.decode(conn.private.shift4shop_token)
+  end
+
+  @doc """
+  Includes the credentials from the GitHub response.
+  """
+  def credentials(conn, scopes \\ []) do
+    token = Token.decode(conn.private.shift4shop_token)
+
+    %Credentials{
+      token: token.token_key,
+      refresh_token: token.token_key,
+      expires_at: nil,
+      token_type: token.action,
+      expires: nil,
+      scopes: scopes
+    }
   end
 
   @doc """
@@ -84,8 +106,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   """
   def extra(conn) do
     %{
-      shift4shop_token: :token,
-      shift4shop_user: :user
+      shift4shop_token: :token
     }
     |> Enum.filter(fn {original_key, _} ->
       Map.has_key?(conn.private, original_key)
@@ -101,7 +122,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   Fetches the uid field from the response.
   """
   def uid(conn) do
-    conn.private.shift4shop_user
+    conn.private.shift4shop_token.secure_url
   end
 
   defp option(conn, key) do
