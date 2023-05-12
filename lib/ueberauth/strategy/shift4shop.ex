@@ -142,7 +142,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   end
 
   defp options_from_conn(conn) do
-    base_options = []
+    base_options = [redirect_uri: callback_url(conn)]
     request_options = conn.private[:ueberauth_request_options].options
 
     case {request_options[:client_id], request_options[:client_secret]} do
