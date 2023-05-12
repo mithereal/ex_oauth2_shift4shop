@@ -27,6 +27,10 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     client_id = config[:client_id]
     client_secret = config[:client_secret]
 
+    unless client_id && client_id do
+      raise "client_id and client_secret must be set"
+    end
+
     opts = @defaults |> Keyword.merge(opts) |> Keyword.merge([client_id: client_id]) |> Keyword.merge([client_secret: client_secret]) |> resolve_values()
 
     json_library = Ueberauth.json_library()
