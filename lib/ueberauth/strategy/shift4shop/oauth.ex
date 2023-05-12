@@ -142,7 +142,6 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
   end
 
   def remove_token(client, params, headers) do
-    {code, params} = Keyword.pop(params, :code, client.params["code"])
     {store_url, params} = Keyword.pop(params, :store_url, client.params["store_url"])
 
     unless store_url do
@@ -152,9 +151,7 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
     client
     |> put_header("Accept", "application/json")
     |> put_header("Content-Type", "application/x-www-form-urlencoded")
-    |> put_param(:code, code)
     |> put_param(:store_url, store_url)
-    |> put_param(:grant_type, "authorization_code")
     |> put_param(:client_id, client.client_id)
     |> put_param(:client_secret, client.client_secret)
     |> merge_params(params)
