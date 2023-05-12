@@ -4,15 +4,14 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   """
 
   use Ueberauth.Strategy,
-      ignores_csrf_attack: true,
-      uid_field: :userId,
-      default_scope: "identify",
-      send_redirect_uri: false,
-      oauth2_module: Ueberauth.Strategy.Shift4Shop.OAuth
+    uid_field: "SecureURL",
+    default_scope: "identify",
+    send_redirect_uri: true,
+    oauth2_module: Ueberauth.Strategy.Shift4Shop.OAuth
 
   alias Ueberauth.Auth.Info
-  alias Ueberauth.Auth.Credentials
   alias Ueberauth.Auth.Extra
+  alias Ueberauth.Strategy.Shift4Shop.Token
 
   @doc """
   Handles initial request for Shift4Shop authentication.
@@ -67,10 +66,8 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   Fetches the fields to populate the info section of the `Ueberauth.Auth` struct.
   """
   def info(conn) do
-    user = conn.private.shift4shop_user
-
     %Info{
-      nickname: user["userId"]
+      nickname: conn.private.shift4shop_user
     }
   end
 
@@ -78,16 +75,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   Includes the credentials from the Shift4Shop response.
   """
   def credentials(conn) do
-    token = conn.private.shift4shop_token
-    scopes = split_scopes(token)
-
-    %Credentials{
-      expires: !!token.expires_at,
-      expires_at: token.expires_at,
-      token: token.access_token,
-      refresh_token: token.refresh_token,
-      scopes: scopes
-    }
+    Token.decode(conn.private.shift4shop_token)
   end
 
   @doc """
@@ -113,12 +101,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   Fetches the uid field from the response.
   """
   def uid(conn) do
-    uid_field =
-      conn
-      |> option(:uid_field)
-      |> to_string
-
-    conn.private.shift4shop_user[uid_field]
+    conn.private.shift4shop_user
   end
 
   defp option(conn, key) do
@@ -148,10 +131,5 @@ defmodule Ueberauth.Strategy.Shift4Shop do
       {_, nil} -> base_options
       {id, secret} -> [client_id: id, client_secret: secret] ++ base_options
     end
-  end
-
-  defp split_scopes(token) do
-    (token.other_params["scope"] || "")
-    |> String.split(" ")
   end
 end
