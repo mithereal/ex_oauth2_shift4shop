@@ -56,6 +56,8 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
       client(opts)
       |> OAuth2.Client.get_token(params)
 
+    IO.inspect(client, label: "client")
+
     {_, token} =
       case client do
         {:error, %{body: %{"error" => description}, status_code: error}} ->
