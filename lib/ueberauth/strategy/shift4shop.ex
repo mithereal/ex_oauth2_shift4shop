@@ -41,7 +41,8 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   @doc false
   def handle_callback!(%Plug.Conn{params: %{"code" => code}} = conn) do
     opts = [redirect_uri: callback_url(conn)]
-
+    require Logger
+    Logger.info(opts)
     decoded =
       option(conn, :oauth2_module)
       |> apply(:get_token!, [[code: code], opts])
@@ -105,6 +106,8 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   Includes the token from the Shift4Shop response.
   """
   def token(conn) do
+    require Logger
+    Logger.info(conn.private)
     Token.decode(conn.private.shift4shop_token)
   end
 
