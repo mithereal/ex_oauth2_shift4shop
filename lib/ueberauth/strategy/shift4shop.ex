@@ -4,7 +4,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   """
 
   use Ueberauth.Strategy,
-    send_redirect_uri: true,
+    send_redirect_uri: false,
     oauth2_module: Ueberauth.Strategy.Shift4Shop.OAuth
 
   alias Ueberauth.Auth.Info
