@@ -40,8 +40,6 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
   Provides the authorize url for the request phase of Ueberauth. No need to call this usually.
   """
   def authorize_url!(params \\ [], opts \\ []) do
-    json_library = Ueberauth.json_library()
-
     opts
     |> client
     |> OAuth2.Client.authorize_url!(params)

@@ -7,7 +7,9 @@ defmodule Ueberauth.Strategy.Shift4Shop.Token do
             post_back_url: nil
 
   def decode(json) do
-    data = Jason.decode!(json)
+    json_library = Ueberauth.json_library()
+
+    data = json_library.decode!(json)
 
     %__MODULE__{
       public_key: data["PublicKey"],
