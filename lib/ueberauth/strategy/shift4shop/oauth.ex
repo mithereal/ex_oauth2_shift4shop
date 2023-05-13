@@ -112,10 +112,10 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
   @doc """
   revoke the oauth application.
   """
-  def revoke!(params \\ [], opts \\ []) do
+  def revoke!(token \\ [], opts \\ []) do
     client =
       client(opts)
-      |> OAuth2.Client.delete(params)
+      |> OAuth2.Client.delete(token)
 
     {_, token} =
       case client do

@@ -63,16 +63,16 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   end
 
   @doc false
-  def handle_removal!(%Plug.Conn{params: %{"store_url" => store_url}} = conn) do
-    opts = [redirect_uri: callback_url(conn)]
+  def handle_revoke!(%Plug.Conn{params: %{"store_url" => store_url}} = conn) do
+    opts = []
 
     option(conn, :oauth2_module)
-    |> apply(:remove_token!, [[store_url: store_url], opts])
+    |> apply(:revoke!, [[store_url: store_url], opts])
   end
 
   @doc false
-  def handle_removal!(conn) do
-    set_errors!(conn, [error("missing_code", "No code received")])
+  def handle_revoke!(conn) do
+    set_errors!(conn, [error("missing_store_url", "No store_url received")])
   end
 
   @doc false
