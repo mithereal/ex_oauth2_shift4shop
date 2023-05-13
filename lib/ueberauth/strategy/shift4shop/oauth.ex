@@ -13,6 +13,8 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
 
   use OAuth2.Strategy
 
+ require Logger
+
   @defaults [
     strategy: __MODULE__,
     site: "https://apirest.3dcart.com",
@@ -56,7 +58,7 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
       client(opts)
       |> OAuth2.Client.get_token(params)
 
-    IO.inspect(client, label: "client")
+    Logger.info(client)
 
     {_, token} =
       case client do
