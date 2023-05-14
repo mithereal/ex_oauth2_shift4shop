@@ -1,7 +1,7 @@
 defmodule Shift4Shop.Oauth2.Mixfile do
   use Mix.Project
 
-  @version "1.2.3"
+  @version "1.2.5"
   @url "https://github.com/mithereal/ex_oauth2_shift4shop"
 
 
@@ -25,6 +25,9 @@ defmodule Shift4Shop.Oauth2.Mixfile do
       ]
     ]
   end
+
+  string='This is a sample 12.34.5 text and some 987 numbers'
+  echo "$string" | sed -rn 's/[^[:digit:]]*([[:digit:]]+)[^[:digit:]]+([[:digit:]]+)[^[:digit:]]*/\1 /p'
 
   def application do
     [applications: [:logger, :ueberauth, :oauth2, :crypto, :public_key]]
@@ -67,5 +70,15 @@ defmodule Shift4Shop.Oauth2.Mixfile do
       licenses: ["MIT"],
       links: %{GitHub: @url}
     ]
+  end
+
+  defp app_version do
+    # get git version
+    {description, 0} = System.cmd("git", ~w[describe]) # => returns something like: v1.0-231-g1c7ef8b
+    _git_version = String.strip(description)
+                   |> String.split("-")
+                   |> Enum.take(2)
+                   |> Enum.join(".")
+                   |> String.replace_leading("v", "")
   end
 end
