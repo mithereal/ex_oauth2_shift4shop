@@ -5,9 +5,9 @@ defmodule Shift4Shop.Strategy.OAuth2 do
   To add your `:client_id` and `:client_secret` include these values in your
   configuration:
 
-      config :ueberauth, Shift4Shop.Strategy.OAuth2,
-        client_id: System.get_env("Shift4Shop_CLIENT_ID"),
-        client_secret: System.get_env("Shift4Shop_CLIENT_SECRET")
+  config :oauth2_shift4shop, :credentials,
+       client_id: System.get_env("SHIFT4SHOP_CLIENT_ID"),
+       client_secret: System.get_env("SHIFT4SHOP_CLIENT_SECRET")
 
   """
 
@@ -22,7 +22,7 @@ defmodule Shift4Shop.Strategy.OAuth2 do
   ]
 
   def client(opts \\ []) do
-    config = Application.get_env(:ueberauth, __MODULE__, [])
+    config = Application.get_env(:shift4shop, :credentials, [])
 
     opts =
       @defaults
