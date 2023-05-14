@@ -44,10 +44,14 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   def handle_callback!(%Plug.Conn{params: %{"code" => code}} = conn) do
     opts = [redirect_uri: callback_url(conn)]
 
+    IO.puts(code)
+
     decoded =
       option(conn, :oauth2_module)
       |> apply(:get_token!, [[code: code], opts])
       |> token()
+
+    IO.inspect(decoded, label: "decoded")
 
     if decoded.token_key == nil do
       err = "Token Error"
@@ -114,7 +118,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   Includes the credentials from the GitHub response.
   """
   def credentials(conn, scopes \\ []) do
-    token = Token.decode(conn.private.shift4shop_token)
+    token = conn.private.shift4shop_token
 
     %Credentials{
       token: token.token_key,
