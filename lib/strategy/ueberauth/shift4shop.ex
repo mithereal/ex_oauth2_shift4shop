@@ -44,23 +44,14 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   def handle_callback!(%Plug.Conn{params: %{"code" => code}} = conn) do
     opts = [redirect_uri: callback_url(conn)]
 
-    IO.puts(code)
-
     decoded =
       option(conn, :oauth2_module)
       |> apply(:get_token!, [[code: code], opts])
-      |> token()
 
     IO.inspect(decoded, label: "decoded")
 
-    if decoded.token_key == nil do
-      err = "Token Error"
-      desc = "Invalid Token"
-      set_errors!(conn, [error(err, desc)])
-    else
-      conn
-      |> store_token(decoded)
-    end
+    conn
+    |> store_token(decoded)
   end
 
   @doc false
