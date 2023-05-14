@@ -38,11 +38,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
 
       token = client.token
 
-      if token.token_key == nil do
-        err = "Token Error"
-        desc = "Invalid Token"
-        set_errors!(conn, [error(err, desc)])
-      else
+      unless is_nil(token.token_key) do
         conn
         |> store_token(token)
       end

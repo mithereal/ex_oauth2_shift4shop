@@ -1,7 +1,7 @@
 defmodule Shift4Shop.Oauth2.Mixfile do
   use Mix.Project
 
-  @version "1.2.5"
+  @version "1.2.6"
   @url "https://github.com/mithereal/ex_oauth2_shift4shop"
 
 
@@ -25,9 +25,6 @@ defmodule Shift4Shop.Oauth2.Mixfile do
       ]
     ]
   end
-
-  string='This is a sample 12.34.5 text and some 987 numbers'
-  echo "$string" | sed -rn 's/[^[:digit:]]*([[:digit:]]+)[^[:digit:]]+([[:digit:]]+)[^[:digit:]]*/\1 /p'
 
   def application do
     [applications: [:logger, :ueberauth, :oauth2, :crypto, :public_key]]
