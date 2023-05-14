@@ -41,7 +41,7 @@ defmodule Shift4Shop.Oauth2.Mixfile do
       {:bandit, ">= 0.0.0", only: :test},
       {:credo, "~> 1.1", only: [:dev, :test]},
       {:jason, "~> 1.0", only: [:dev, :test]},
-      {:ueberauth, "~> 0.7.0", optional: true},
+      {:ueberauth, "~> 0.7.0", optional: false},
       {:assent, "~> 0.2.3", optional: true},
       {:jose, "~> 1.8", optional: true},
       {:mint, "~> 1.0", optional: true},

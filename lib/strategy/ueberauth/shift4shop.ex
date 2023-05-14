@@ -5,6 +5,8 @@ defmodule Shift4Shop.Strategy.Ueberauth do
 
   use Ueberauth.Strategy,
     send_redirect_uri: true,
+    uid_field: :id,
+    default_scope: "",
     oauth2_module: Shift4Shop.Strategy.OAuth2
 
   alias Ueberauth.Auth.Info
