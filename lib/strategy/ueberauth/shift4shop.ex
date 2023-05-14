@@ -32,7 +32,8 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   """
   def handle_request!(conn) do
     opts =
-      options_from_conn(conn)
+      #options_from_conn(conn)
+      []
       |> with_state_param(conn)
       |> with_redirect_uri(conn)
 
