@@ -4,8 +4,9 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   """
 
   use Ueberauth.Strategy,
+    ignores_csrf_attack: true,
     send_redirect_uri: true,
-    uid_field: :id,
+    uid_field: :secure_url,
     default_scope: "",
     oauth2_module: Shift4Shop.Strategy.OAuth2
 
@@ -123,7 +124,8 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   Fetches the uid field from the response.
   """
   def uid(conn) do
-    conn.private.shift4shop_token.secure_url
+    decoded = Token.decode(conn.private.shift4shop_token)
+    decoded.secure_url
   end
 
   defp option(conn, key) do
