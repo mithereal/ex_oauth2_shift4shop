@@ -4,6 +4,7 @@ defmodule Shift4Shop.Oauth2.Mixfile do
   @version "1.2.3"
   @url "https://github.com/mithereal/ex_oauth2_shift4shop"
 
+
   def project do
     [
       app: :oauth2_shift4shop,
