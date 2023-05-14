@@ -1,4 +1,4 @@
-defmodule Shift4Shop.Strategy.Ueberauth do
+defmodule Ueberauth.Strategy.Shift4Shop do
   @moduledoc """
   Shift4Shop Strategy for Überauth.
   """
