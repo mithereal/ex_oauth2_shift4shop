@@ -31,21 +31,24 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   def handle_callback!(%Plug.Conn{params: %{"code" => code}} = conn) do
     opts = [redirect_uri: callback_url(conn)]
 
-    client =
-      option(conn, :oauth2_module)
-      |> apply(:get_token!, [[code: code], opts])
+    try do
+      client =
+        option(conn, :oauth2_module)
+        |> apply(:get_token!, [[code: code], opts])
 
-    decoded =
-      token(client.token)
+      token = client.token
 
-    if decoded.token_key == nil do
-      err = "Token Error"
-      desc = "Invalid Token"
-      set_errors!(conn, [error(err, desc)])
-    else
-      conn
-      |> store_token(client.token)
+      if token.token_key == nil do
+        err = "Token Error"
+        desc = "Invalid Token"
+        set_errors!(conn, [error(err, desc)])
+      else
+        conn
+        |> store_token(token)
+      end
     end
+  rescue
+    e -> set_errors!(conn, [error("get_token_error", e)])
   end
 
   @doc false

@@ -53,7 +53,7 @@ defmodule Shift4Shop.Strategy.OAuth2 do
 
   def get_token!(params \\ [], opts \\ []) do
     client(opts)
-    |> OAuth2.Client.get_token!(params)
+    |> OAuth2.Client.get_token(params)
   end
 
   defp request_headers(client, token) do
