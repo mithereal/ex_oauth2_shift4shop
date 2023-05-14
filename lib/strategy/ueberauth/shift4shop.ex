@@ -46,9 +46,9 @@ defmodule Ueberauth.Strategy.Shift4Shop do
         conn
         |> store_token(token)
       end
-    end
   rescue
     e -> set_errors!(conn, [error("get_token_error", e)])
+  end
   end
 
   @doc false
