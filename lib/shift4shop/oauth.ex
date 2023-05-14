@@ -67,11 +67,11 @@ defmodule Shift4Shop.Strategy.OAuth2 do
 
   # Strategy Callbacks
 
-  defp authorize_url(client, params) do
+  def authorize_url(client, params) do
     OAuth2.Strategy.AuthCode.authorize_url(client, params)
   end
 
-  def get_token(client, params, headers \\ []) do
+  def get_token(client, params, headers) do
     {code, params} = Keyword.pop(params, :code, client.params["code"])
 
     unless code do
@@ -93,6 +93,6 @@ defmodule Shift4Shop.Strategy.OAuth2 do
     |> put_param(:client_secret, client.client_secret)
     |> put_param(:redirect_uri, client.redirect_uri)
     |> put_headers(headers)
-    |> OAuth2.Client.get_token!(params)
+    |> OAuth2.Client.get_token(params)
   end
 end

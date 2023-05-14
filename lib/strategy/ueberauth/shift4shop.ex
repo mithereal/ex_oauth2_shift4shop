@@ -36,8 +36,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
       |> apply(:get_token!, [[code: code], opts])
 
     decoded =
-      json
-      |> token()
+      token(token)
 
     if decoded.token_key == nil do
       err = "Token Error"
