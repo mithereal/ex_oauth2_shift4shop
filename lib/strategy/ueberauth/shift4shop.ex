@@ -15,25 +15,11 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   alias Shift4Shop.OAuth2.Token
 
   @doc """
-  Handles request for removal of Shift4Shop authentication.
-  """
-  def handle_removal!(conn) do
-    opts =
-      options_from_conn(conn)
-      |> with_state_param(conn)
-      |> with_redirect_uri(conn)
-
-    module = option(conn, :oauth2_module)
-    redirect!(conn, apply(module, :authorize_url!, [opts]))
-  end
-
-  @doc """
   Handles initial request for Shift4Shop authentication.
   """
   def handle_request!(conn) do
-    # options_from_conn(conn)
     opts =
-      []
+      options_from_conn(conn)
       |> with_state_param(conn)
       |> with_redirect_uri(conn)
 
@@ -45,7 +31,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   def handle_callback!(%Plug.Conn{params: %{"code" => code}} = conn) do
     opts = [redirect_uri: callback_url(conn)]
 
-    json =
+    token =
       option(conn, :oauth2_module)
       |> apply(:get_token!, [[code: code], opts])
 
@@ -59,26 +45,13 @@ defmodule Ueberauth.Strategy.Shift4Shop do
       set_errors!(conn, [error(err, desc)])
     else
       conn
-      |> store_token(json)
+      |> store_token(token)
     end
   end
 
   @doc false
   def handle_callback!(conn) do
     set_errors!(conn, [error("missing_code", "No code received")])
-  end
-
-  @doc false
-  def handle_revoke!(%Plug.Conn{params: %{"store_url" => store_url}} = conn) do
-    opts = []
-
-    option(conn, :oauth2_module)
-    |> apply(:revoke!, [[store_url: store_url], opts])
-  end
-
-  @doc false
-  def handle_revoke!(conn) do
-    set_errors!(conn, [error("missing_store_url", "No store_url received")])
   end
 
   @doc false

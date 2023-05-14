@@ -28,7 +28,6 @@ defmodule Shift4Shop.Strategy.OAuth2 do
       @defaults
       |> Keyword.merge(opts)
       |> Keyword.merge(config)
-      |> resolve_values()
 
     json_library = Shift4Shop.Oauth2.json_library()
 
@@ -53,30 +52,8 @@ defmodule Shift4Shop.Strategy.OAuth2 do
   end
 
   def get_token!(params \\ [], opts \\ []) do
-    token =
       client(opts)
       |> get_token(params)
-
-    {_, token} =
-      case token do
-        {:error, %{body: %{"error" => description}, status_code: error}} ->
-          {:error,
-           %{
-             access_token: nil,
-             other_params: [
-               error: error,
-               error_description: description
-             ]
-           }}
-
-        {:ok, %{token: token}} ->
-          {:ok, token}
-
-        {:ok, %{body: %{token: token}}} ->
-          {:ok, token}
-      end
-
-    token
   end
 
   defp request_headers(client, token) do
@@ -94,7 +71,7 @@ defmodule Shift4Shop.Strategy.OAuth2 do
     OAuth2.Strategy.AuthCode.authorize_url(client, params)
   end
 
-  def get_token(client, params, headers) do
+  def get_token(client, params, headers \\ []) do
     {code, params} = Keyword.pop(params, :code, client.params["code"])
 
     unless code do
@@ -115,63 +92,7 @@ defmodule Shift4Shop.Strategy.OAuth2 do
     |> put_param(:client_id, client.client_id)
     |> put_param(:client_secret, client.client_secret)
     |> put_param(:redirect_uri, client.redirect_uri)
-    |> merge_params(params)
     |> put_headers(headers)
+    |> OAuth2.Client.get_token!(params)
   end
-
-  @doc """
-  revoke the oauth application.
-  """
-  def revoke!(token \\ [], opts \\ []) do
-    client =
-      client(opts)
-      |> OAuth2.Client.delete(token)
-
-    {_, token} =
-      case client do
-        {:error, %{body: %{"error" => description}, status_code: error}} ->
-          {:error,
-           %{
-             access_token: nil,
-             other_params: [
-               error: error,
-               error_description: description
-             ]
-           }}
-
-        {:ok, %{token: token}} ->
-          {:ok, token}
-
-        {:ok, %{body: %{token: token}}} ->
-          {:ok, token}
-      end
-
-    token
-  end
-
-  def revoke(client, params, headers) do
-    {store_url, params} = Keyword.pop(params, :store_url, client.params["store_url"])
-
-    unless store_url do
-      raise OAuth2.Error, reason: "Missing required key `store_url` for `#{inspect(__MODULE__)}`"
-    end
-
-    client
-    |> put_header("Accept", "application/json")
-    |> put_header("Content-Type", "application/x-www-form-urlencoded")
-    |> put_param(:store_url, store_url)
-    |> put_param(:client_id, client.client_id)
-    |> put_param(:client_secret, client.client_secret)
-    |> merge_params(params)
-    |> put_headers(headers)
-  end
-
-  defp resolve_values(list) do
-    for {key, value} <- list do
-      {key, resolve_value(value)}
-    end
-  end
-
-  defp resolve_value({m, f, a}) when is_atom(m) and is_atom(f), do: apply(m, f, a)
-  defp resolve_value(v), do: v
 end
