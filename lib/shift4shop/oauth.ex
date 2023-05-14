@@ -42,22 +42,23 @@ defmodule Shift4Shop.Strategy.OAuth2 do
   def authorize_url!(params \\ [], opts \\ []) do
     opts
     |> client
-    |> authorize_url(params)
+    |> authorize_url!(params)
   end
 
   def get(token, url, headers \\ [], opts \\ []) do
     [token: token]
     |> client
+    |> request_headers(token)
     |> OAuth2.Client.get(url, headers, opts)
   end
 
   def get_token!(params \\ [], opts \\ []) do
-    client =
+    token =
       client(opts)
       |> get_token(params)
 
     {_, token} =
-      case client do
+      case token do
         {:error, %{body: %{"error" => description}, status_code: error}} ->
           {:error,
            %{
@@ -78,9 +79,18 @@ defmodule Shift4Shop.Strategy.OAuth2 do
     token
   end
 
+  defp request_headers(client, token) do
+    client
+    |> put_header("Accept", "application/json")
+    |> put_header("Content-Type", "application/json")
+    |> put_header("SecureURL", token.secure_uri)
+    |> put_header("PrivateKey", client.private_key)
+    |> put_header("Token", Jason.encode(token))
+  end
+
   # Strategy Callbacks
 
-  def authorize_url(client, params) do
+  defp authorize_url(client, params) do
     OAuth2.Strategy.AuthCode.authorize_url(client, params)
   end
 
