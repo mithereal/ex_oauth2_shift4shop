@@ -1,4 +1,4 @@
-defmodule Shift4Shop.Strategy.Assent do
+defmodule Assent.Strategy.Shift4Shop do
   @moduledoc """
   Shift4Shop Strategy for Assent.
   """
