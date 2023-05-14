@@ -52,8 +52,8 @@ defmodule Shift4Shop.Strategy.OAuth2 do
   end
 
   def get_token!(params \\ [], opts \\ []) do
-      client(opts)
-      |> get_token(params)
+    client(opts)
+    |> OAuth2.Client.get_token!(params)
   end
 
   defp request_headers(client, token) do
@@ -63,6 +63,20 @@ defmodule Shift4Shop.Strategy.OAuth2 do
     |> put_header("SecureURL", token.secure_uri)
     |> put_header("PrivateKey", client.private_key)
     |> put_header("Token", Jason.encode(token))
+  end
+
+  defp code_headers(client, code) do
+    case client.postback_uri do
+      nil -> client
+      data -> put_param(client, :postback_uri, data)
+    end
+    |> put_header("Accept", "application/json")
+    |> put_header("Content-Type", "application/x-www-form-urlencoded")
+    |> put_param(:code, code)
+    |> put_param(:grant_type, "authorization_code")
+    |> put_param(:client_id, client.client_id)
+    |> put_param(:client_secret, client.client_secret)
+    |> put_param(:redirect_uri, client.redirect_uri)
   end
 
   # Strategy Callbacks
@@ -78,21 +92,7 @@ defmodule Shift4Shop.Strategy.OAuth2 do
       raise OAuth2.Error, reason: "Missing required key `code` for `#{inspect(__MODULE__)}`"
     end
 
-    client =
-      case client.postback_uri do
-        nil -> client
-        data -> put_param(client, :postback_uri, data)
-      end
-
-    client
-    |> put_header("Accept", "application/json")
-    |> put_header("Content-Type", "application/x-www-form-urlencoded")
-    |> put_param(:code, code)
-    |> put_param(:grant_type, "authorization_code")
-    |> put_param(:client_id, client.client_id)
-    |> put_param(:client_secret, client.client_secret)
-    |> put_param(:redirect_uri, client.redirect_uri)
-    |> put_headers(headers)
-    |> OAuth2.Client.get_token(params)
+    code_headers(client, code)
+    |> OAuth2.Strategy.AuthCode.get_token(params, headers)
   end
 end
