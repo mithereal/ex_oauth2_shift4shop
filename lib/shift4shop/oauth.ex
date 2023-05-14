@@ -22,7 +22,7 @@ defmodule Shift4Shop.Strategy.OAuth2 do
   ]
 
   def client(opts \\ []) do
-    config = Application.get_env(:shift4shop, :credentials, [])
+    config = Application.get_env(:oauth2_shift4shop, :credentials, [])
 
     opts =
       @defaults
