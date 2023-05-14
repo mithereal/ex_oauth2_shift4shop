@@ -31,8 +31,8 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   Handles initial request for Shift4Shop authentication.
   """
   def handle_request!(conn) do
+    # options_from_conn(conn)
     opts =
-      #options_from_conn(conn)
       []
       |> with_state_param(conn)
       |> with_redirect_uri(conn)
@@ -45,11 +45,13 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   def handle_callback!(%Plug.Conn{params: %{"code" => code}} = conn) do
     opts = [redirect_uri: callback_url(conn)]
 
-    decoded =
+    json =
       option(conn, :oauth2_module)
       |> apply(:get_token!, [[code: code], opts])
-      |> token()
 
+    decoded =
+      json
+      |> token()
 
     if decoded.token_key == nil do
       err = "Token Error"
@@ -57,7 +59,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
       set_errors!(conn, [error(err, desc)])
     else
       conn
-      |> store_token(decoded)
+      |> store_token(json)
     end
   end
 
