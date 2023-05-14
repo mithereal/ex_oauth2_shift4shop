@@ -47,11 +47,17 @@ defmodule Ueberauth.Strategy.Shift4Shop do
     decoded =
       option(conn, :oauth2_module)
       |> apply(:get_token!, [[code: code], opts])
+      |> token()
 
-    IO.inspect(decoded, label: "decoded")
 
-    conn
-    |> store_token(decoded)
+    if decoded.token_key == nil do
+      err = "Token Error"
+      desc = "Invalid Token"
+      set_errors!(conn, [error(err, desc)])
+    else
+      conn
+      |> store_token(decoded)
+    end
   end
 
   @doc false

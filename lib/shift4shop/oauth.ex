@@ -42,7 +42,7 @@ defmodule Shift4Shop.Strategy.OAuth2 do
   def authorize_url!(params \\ [], opts \\ []) do
     opts
     |> client
-    |> OAuth2.Client.authorize_url!(params)
+    |> authorize_url(params)
   end
 
   def get(token, url, headers \\ [], opts \\ []) do
@@ -54,7 +54,7 @@ defmodule Shift4Shop.Strategy.OAuth2 do
   def get_token!(params \\ [], opts \\ []) do
     client =
       client(opts)
-      |> OAuth2.Client.get_token(params)
+      |> get_token(params)
 
     {_, token} =
       case client do
