@@ -1,11 +1,11 @@
-defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
+defmodule Shift4Shop.Strategy.OAuth2 do
   @moduledoc """
   An implementation of OAuth2 for Shift4Shop.
 
   To add your `:client_id` and `:client_secret` include these values in your
   configuration:
 
-      config :ueberauth, Ueberauth.Strategy.Shift4Shop.OAuth,
+      config :ueberauth, Shift4Shop.Strategy.OAuth2,
         client_id: System.get_env("Shift4Shop_CLIENT_ID"),
         client_secret: System.get_env("Shift4Shop_CLIENT_SECRET")
 
@@ -32,7 +32,7 @@ defmodule Ueberauth.Strategy.Shift4Shop.OAuth do
       |> Keyword.merge(config)
       |> resolve_values()
 
-    json_library = Ueberauth.json_library()
+    json_library = json_library()
 
     OAuth2.Client.new(opts)
     |> OAuth2.Client.put_serializer("application/json", json_library)

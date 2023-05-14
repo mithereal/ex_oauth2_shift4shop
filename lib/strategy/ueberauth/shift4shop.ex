@@ -1,16 +1,16 @@
-defmodule Ueberauth.Strategy.Shift4Shop do
+defmodule Shift4Shop.Strategy.Ueberauth do
   @moduledoc """
   Shift4Shop Strategy for Überauth.
   """
 
   use Ueberauth.Strategy,
     send_redirect_uri: false,
-    oauth2_module: Ueberauth.Strategy.Shift4Shop.OAuth
+    oauth2_module: Shift4Shop.Strategy.OAuth2
 
   alias Ueberauth.Auth.Info
   alias Ueberauth.Auth.Extra
   alias Ueberauth.Auth.Credentials
-  alias Ueberauth.Strategy.Shift4Shop.Token
+  alias Shift4Shop.OAuth2.Token
 
   @doc """
   Handles request for removal of Shift4Shop authentication.
@@ -172,5 +172,9 @@ defmodule Ueberauth.Strategy.Shift4Shop do
       {_, nil} -> base_options
       {id, secret} -> [client_id: id, client_secret: secret] ++ base_options
     end
+  end
+
+  def json_library() do
+    Jason
   end
 end

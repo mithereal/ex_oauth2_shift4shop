@@ -1,15 +1,15 @@
-defmodule UeberauthSwift4Shop.Mixfile do
+defmodule Shift4Shop.Oauth2.Mixfile do
   use Mix.Project
 
   @version "1.1.1"
-  @url "https://github.com/mithereal/ueberauth_shift4shop"
+  @url "https://github.com/mithereal/ex_oauth2_shift4shop"
 
   def project do
     [
-      app: :ueberauth_shift4shop,
+      app: :oauth2_shift4shop,
       version: @version,
       elixir: "~> 1.3",
-      name: "Ueberauth Shift4Shop",
+      name: "Shift4Shop Oauth2 Strategies",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       source_url: @url,
@@ -17,7 +17,8 @@ defmodule UeberauthSwift4Shop.Mixfile do
       description: description(),
       package: package(),
       deps: deps(),
-      docs: docs()
+      docs: docs(),
+      elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
 
@@ -25,12 +26,24 @@ defmodule UeberauthSwift4Shop.Mixfile do
     [applications: [:logger, :ueberauth, :oauth2]]
   end
 
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
+
   defp deps do
     [
-      {:ueberauth, "~> 0.7.0"},
       {:oauth2, "~> 1.0 or ~> 2.0"},
       {:ex_doc, "~> 0.19", only: :dev},
-      {:earmark, ">= 0.0.0", only: :dev}
+      {:earmark, ">= 0.0.0", only: :dev},
+      {:test_server, "~> 0.1.0", only: :test},
+      {:bandit, ">= 0.0.0", only: :test},
+      {:credo, "~> 1.1", only: [:dev, :test]},
+      {:jason, "~> 1.0", only: [:dev, :test]},
+
+      {:ueberauth, "~> 0.7.0", optional: true},
+      {:assent, "~> 0.2.3", optional: true},
+      {:jose, "~> 1.8", optional: true},
+      {:certifi, ">= 0.0.0", optional: true},
+      {:ssl_verify_fun, ">= 0.0.0", optional: true}
     ]
   end
 
@@ -39,7 +52,7 @@ defmodule UeberauthSwift4Shop.Mixfile do
   end
 
   defp description do
-    "An Uberauth strategy for Shift4Shop authentication."
+    "A Uberauth/Assent strategy for Shift4Shop authentication."
   end
 
   defp package do

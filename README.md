@@ -6,7 +6,7 @@
 
 # Überauth Shift4Shop
 
-> Shift4Shop OAuth2 strategy for Überauth.
+> Shift4Shop OAuth2 strategy for Überauth/Assent.
 
 ## Installation
 

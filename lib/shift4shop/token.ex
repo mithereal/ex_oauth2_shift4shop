@@ -1,4 +1,4 @@
-defmodule Ueberauth.Strategy.Shift4Shop.Token do
+defmodule Shift4Shop.OAuth2.Token do
   defstruct public_key: nil,
             time_stamp: nil,
             token_key: nil,
