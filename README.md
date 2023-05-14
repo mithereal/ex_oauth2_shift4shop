@@ -1,10 +1,10 @@
 
-[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/ueberauth_shift4shop/)
-[![Hex.pm](https://img.shields.io/hexpm/dt/ueberauth_shift4shop.svg)](https://hex.pm/packages/ueberauth_shift4shop)
-[![License](https://img.shields.io/hexpm/l/ueberauth_shift4shop.svg)](https://github.com/mithereal/ueberauth_shift4shop/blob/master/LICENSE)
-[![Last Updated](https://img.shields.io/github/last-commit/mithereal/ueberauth_shift4shop.svg)](https://github.com/mithereal/ueberauth_shift4shop/commits/master)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/ex_oauth2_shift4shop/)
+[![Hex.pm](https://img.shields.io/hexpm/dt/ex_oauth2_shift4shop.svg)](https://hex.pm/packages/ex_oauth2_shift4shop)
+[![License](https://img.shields.io/hexpm/l/ex_oauth2_shift4shop.svg)](https://github.com/mithereal/ex_oauth2_shift4shop/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/mithereal/ex_oauth2_shift4shop.svg)](https://github.com/mithereal/ex_oauth2_shift4shop/commits/master)
 
-# Überauth Shift4Shop
+# Shift4Shop Oauth
 
 > Shift4Shop OAuth2 strategy for Überauth/Assent.
 
@@ -16,7 +16,7 @@
 
     ```elixir
     def deps do
-      [{:ueberauth_shift4shop, "~> 1.0.0"}]
+      [{:oauth2_shift4shop, "~> 1.0.0"}]
     end
     ```
 
@@ -24,7 +24,7 @@
 
     ```elixir
     def application do
-      [applications: [:ueberauth_shift4shop]]
+      [applications: [:oauth2_shift4shop]]
     end
     ```
 
@@ -33,15 +33,15 @@
     ```elixir
     config :ueberauth, Ueberauth,
       providers: [
-        ameritrade: {Ueberauth.Strategy.Shift4Shop, []}
+        oauth2_shift4shop: {Shift4Shop.Strategy.Ueberauth, []}
       ]
     ```
 
 1.  Update your provider configuration:
 
     ```elixir
-    config :ueberauth, Ueberauth.Strategy.Shift4Shop.OAuth,
-      client_id: System.get_env("SWIFT4SHOP_KEY")
+    config :ueberauth, Shift4Shop.Strategy.OAuth2,
+      client_id: System.get_env("SHIFT4SHOP_KEY")
     ```
 
 1.  Include the Überauth plug in your controller:
@@ -75,7 +75,7 @@ For an example implementation see the [Überauth Example](https://github.com/ueb
 
 Depending on the configured url you can initialize the request through:
 
-    /auth/swift4shop
+    /auth/shift4shop
 
 
 You must use something other than Shift4Shop in the callback routes, I use /auth/td see below:
@@ -83,7 +83,7 @@ You must use something other than Shift4Shop in the callback routes, I use /auth
 ```elixir
 config :ueberauth, Ueberauth,
   providers: [
-    swift4shop: {Ueberauth.Strategy.Shift4Shop,  [request_path: "/auth/swift4shop", callback_path: "/auth/swift4shop/callback"]}
+    shift4shop: {Ueberauth.Strategy.Shift4Shop,  [request_path: "/auth/shift4shop", callback_path: "/auth/shift4shop/callback"]}
   ]
 ```
 

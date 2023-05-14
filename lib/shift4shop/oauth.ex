@@ -13,8 +13,6 @@ defmodule Shift4Shop.Strategy.OAuth2 do
 
   use OAuth2.Strategy
 
- require Logger
-
   @defaults [
     strategy: __MODULE__,
     site: "https://apirest.3dcart.com",
@@ -32,7 +30,7 @@ defmodule Shift4Shop.Strategy.OAuth2 do
       |> Keyword.merge(config)
       |> resolve_values()
 
-    json_library = json_library()
+    json_library = Shift4Shop.Oauth2.json_library()
 
     OAuth2.Client.new(opts)
     |> OAuth2.Client.put_serializer("application/json", json_library)
@@ -57,8 +55,6 @@ defmodule Shift4Shop.Strategy.OAuth2 do
     client =
       client(opts)
       |> OAuth2.Client.get_token(params)
-
-    Logger.info(client)
 
     {_, token} =
       case client do

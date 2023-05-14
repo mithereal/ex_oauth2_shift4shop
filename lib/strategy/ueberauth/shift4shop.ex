@@ -105,8 +105,6 @@ defmodule Shift4Shop.Strategy.Ueberauth do
   Includes the token from the Shift4Shop response.
   """
   def token(conn) do
-    require Logger
-    Logger.info(conn.private)
     Token.decode(conn.private.shift4shop_token)
   end
 
@@ -172,9 +170,5 @@ defmodule Shift4Shop.Strategy.Ueberauth do
       {_, nil} -> base_options
       {id, secret} -> [client_id: id, client_secret: secret] ++ base_options
     end
-  end
-
-  def json_library() do
-    Jason
   end
 end

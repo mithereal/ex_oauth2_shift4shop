@@ -7,7 +7,7 @@ defmodule Shift4Shop.OAuth2.Token do
             post_back_url: nil
 
   def decode(json) do
-    json_library = Ueberauth.json_library()
+    json_library = Shift4Shop.Oauth2.json_library()
 
     data = json_library.decode!(json)
 

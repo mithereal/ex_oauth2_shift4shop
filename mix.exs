@@ -18,12 +18,15 @@ defmodule Shift4Shop.Oauth2.Mixfile do
       package: package(),
       deps: deps(),
       docs: docs(),
-      elixirc_paths: elixirc_paths(Mix.env())
+      elixirc_paths: elixirc_paths(Mix.env()),
+      xref: [
+        exclude: [:certifi, :httpc, Mint.HTTP, JOSE.JWT, JOSE.JWK, JOSE.JWS, :ssl_verify_hostname]
+      ]
     ]
   end
 
   def application do
-    [applications: [:logger, :ueberauth, :oauth2]]
+    [applications: [:logger, :ueberauth, :oauth2, :crypto, :public_key]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
@@ -38,10 +41,11 @@ defmodule Shift4Shop.Oauth2.Mixfile do
       {:bandit, ">= 0.0.0", only: :test},
       {:credo, "~> 1.1", only: [:dev, :test]},
       {:jason, "~> 1.0", only: [:dev, :test]},
-
       {:ueberauth, "~> 0.7.0", optional: true},
       {:assent, "~> 0.2.3", optional: true},
       {:jose, "~> 1.8", optional: true},
+      {:mint, "~> 1.0", optional: true},
+      {:castore, "~> 1.0", optional: true},
       {:certifi, ">= 0.0.0", optional: true},
       {:ssl_verify_fun, ">= 0.0.0", optional: true}
     ]
