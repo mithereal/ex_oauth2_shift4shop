@@ -86,6 +86,10 @@ defmodule Shift4Shop.Strategy.OAuth2 do
     opts |> Keyword.put(:scope, scopes)
   end
 
+  defp option(conn, key) do
+    Keyword.get(options(conn), key, Keyword.get(default_options(), key))
+  end
+
   # Strategy Callbacks
 
   def authorize_url(client, params) do
