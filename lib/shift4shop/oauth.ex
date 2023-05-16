@@ -17,7 +17,6 @@ defmodule Shift4Shop.Strategy.OAuth2 do
     strategy: __MODULE__,
     site: "https://apirest.3dcart.com",
     authorize_url: "https://apirest.3dcart.com/oauth/authorize",
-    default_scope: "Identity",
     token_url: "https://apirest.3dcart.com/oauth/token",
     redirect_uri: "https://devportal.3dcart.com/oauth.asp"
   ]
@@ -78,16 +77,6 @@ defmodule Shift4Shop.Strategy.OAuth2 do
     |> put_param(:client_id, client.client_id)
     |> put_param(:client_secret, client.client_secret)
     |> put_param(:redirect_uri, client.redirect_uri)
-  end
-
-  defp with_scopes(opts, conn) do
-    scopes = conn.params["scope"] || option(conn, :default_scope)
-
-    opts |> Keyword.put(:scope, scopes)
-  end
-
-  defp option(conn, key) do
-    Keyword.get(options(conn), key, Keyword.get(default_options(), key))
   end
 
   # Strategy Callbacks

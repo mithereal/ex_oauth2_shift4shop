@@ -7,7 +7,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
     ignores_csrf_attack: true,
     send_redirect_uri: true,
     uid_field: :secure_url,
-    default_scope: "",
+    default_scope: "identify",
     oauth2_module: Shift4Shop.Strategy.OAuth2
 
   alias Ueberauth.Auth.Info
