@@ -21,6 +21,7 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   def handle_request!(conn) do
     opts =
       options_from_conn(conn)
+      |> with_scopes(conn)
       |> with_state_param(conn)
       |> with_redirect_uri(conn)
 
@@ -138,6 +139,12 @@ defmodule Ueberauth.Strategy.Shift4Shop do
     else
       opts
     end
+  end
+
+  defp with_scopes(opts, conn) do
+    scopes = conn.params["scope"] || option(conn, :default_scope)
+
+    opts |> Keyword.put(:scope, scopes)
   end
 
   defp options_from_conn(conn) do
