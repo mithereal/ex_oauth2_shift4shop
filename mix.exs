@@ -1,7 +1,7 @@
 defmodule Shift4Shop.Oauth2.Mixfile do
   use Mix.Project
 
-  @version "1.3.0"
+  @version "0.7.0"
   @url "https://github.com/mithereal/ex_oauth2_shift4shop"
 
 
