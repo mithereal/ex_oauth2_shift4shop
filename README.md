@@ -1,8 +1,8 @@
 
-[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/ex_oauth2_shift4shop/)
-[![Hex.pm](https://img.shields.io/hexpm/dt/ex_oauth2_shift4shop.svg)](https://hex.pm/packages/ex_oauth2_shift4shop)
-[![License](https://img.shields.io/hexpm/l/ex_oauth2_shift4shop.svg)](https://github.com/mithereal/ex_oauth2_shift4shop/blob/master/LICENSE)
-[![Last Updated](https://img.shields.io/github/last-commit/mithereal/ex_oauth2_shift4shop.svg)](https://github.com/mithereal/ex_oauth2_shift4shop/commits/master)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/oauth2_shift4shop/)
+[![Hex.pm](https://img.shields.io/hexpm/dt/oauth2_shift4shop.svg)](https://hex.pm/packages/oauth2_shift4shop)
+![GitHub](https://img.shields.io/github/license/mithereal/ex_oauth2_shift4shop)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mithereal/ex_oauth2_shift4shop/main)
 
 # Shift4Shop Oauth
 

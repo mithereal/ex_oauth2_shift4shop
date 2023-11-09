@@ -71,12 +71,11 @@ defmodule Ueberauth.Strategy.Shift4Shop do
   """
   def info(conn) do
     %Info{
-      urls: [
+      urls:
         %{
           "SecureURL" => conn.private.shift4shop_token.secure_url,
           "PostBackURL" => conn.private.shift4shop_token.post_back_url
         }
-      ]
     }
   end
 
