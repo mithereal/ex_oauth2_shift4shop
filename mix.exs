@@ -1,7 +1,7 @@
 defmodule Shift4Shop.Oauth2.Mixfile do
   use Mix.Project
 
-  @version "0.7.0"
+  @version "0.7.1"
   @url "https://github.com/mithereal/ex_oauth2_shift4shop"
 
 
@@ -36,7 +36,7 @@ defmodule Shift4Shop.Oauth2.Mixfile do
   defp deps do
     [
       {:oauth2, "~> 1.0 or ~> 2.0"},
-      {:ueberauth, "~> 0.7.0"},
+      {:ueberauth, "~> 0.7.0", optional: true},
       {:jason, "~> 1.0"},
       {:credo, "~> 1.1", only: [:dev, :test]},
       {:ex_doc, "~> 0.19", only: :dev},
@@ -72,7 +72,7 @@ defmodule Shift4Shop.Oauth2.Mixfile do
   defp app_version do
     # get git version
     {description, 0} = System.cmd("git", ~w[describe]) # => returns something like: v1.0-231-g1c7ef8b
-    _git_version = String.strip(description)
+    _git_version = String.trim(description)
                    |> String.split("-")
                    |> Enum.take(2)
                    |> Enum.join(".")
