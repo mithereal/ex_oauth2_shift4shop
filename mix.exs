@@ -37,17 +37,18 @@ defmodule Shift4Shop.Oauth2.Mixfile do
     [
       {:oauth2, "~> 1.0 or ~> 2.0"},
       {:ueberauth, "~> 0.7.0", optional: true},
-      {:jason, "~> 1.0"},
-      {:credo, "~> 1.1", only: [:dev, :test]},
+      {:credo, "~> 0.8", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :dev},
-      {:earmark, ">= 0.0.0", only: :dev},
       {:bandit, ">= 0.0.0", only: :test},
       {:assent, "~> 0.2.3", optional: true},
       {:jose, "~> 1.8", optional: true},
       {:mint, "~> 1.0", optional: true},
       {:castore, "~> 1.0", optional: true},
       {:certifi, ">= 0.0.0", optional: true},
-      {:ssl_verify_fun, ">= 0.0.0", optional: true}
+      {:ssl_verify_fun, ">= 0.0.0", optional: true},
+      {:phoenix, "~> 1.7.1", optional: true},
+      {:jason, "~> 1.0"},
+      {:earmark, ">= 0.0.0", only: :dev}
     ]
   end
 
